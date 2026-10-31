@@ -3,7 +3,6 @@
 Makes a tornado chart from one of three explicitly named statistics and prints that statistic on the chart: one-at-a-time swing, Spearman rank correlation or standardised regression coefficient. Exports SVG and PNG.
 
 - Web page: https://vladkulakovsky.com/resources/tornado-chart-maker (explanation, worked examples, FAQ)
-- Source release: `tornado-chart-maker-v1.0.0` in https://github.com/VVKulakovsky/project-risk-open-methods (planned; not published yet)
 - Version 1.0.0, 30 October 2026. Code MIT, text CC BY 4.0 (see `LICENSE`).
 
 ## Who it is for
