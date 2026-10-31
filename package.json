@@ -1,0 +1,16 @@
+{
+  "name": "tornado-chart-maker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Open-method project risk tool (browser and Node).",
+  "license": "MIT AND CC-BY-4.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "fixtures": "node src/make-fixtures.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "python -I tests/independent/verify.py"
+  }
+}

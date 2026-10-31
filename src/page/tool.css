@@ -1,0 +1,20 @@
+/* Schedule risk simulator and tornado chart maker: append to website/src/app/(frontend)/styles.css (the rules are shared; add once). */
+.sim-controls{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end}
+.sim-controls label{display:flex;flex-direction:column;gap:4px;margin:0;font-size:13px}
+.sim-controls input,.sim-controls select{padding:8px;font-size:14px}
+.table-scroll{overflow-x:auto;margin:14px 0;border:1px solid var(--line)}
+.sim-table{border-collapse:collapse;width:100%;min-width:720px;font-size:13px}
+.sim-table th,.sim-table td{padding:4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.sim-table th{background:#ece9df;font-weight:600}
+.sim-table input,.sim-table select{width:100%;min-width:0;padding:5px 6px;font-size:13px}
+.schedule-sim .sim-table td:nth-child(1){width:70px}.schedule-sim .sim-table td:nth-child(3){width:96px}.schedule-sim .sim-table td:nth-child(n+4):nth-child(-n+6){width:84px}
+.schedule-sim figure,.tornado-result{margin:24px 0}
+.schedule-sim figure svg,.tornado-result svg{display:block;width:100%;height:auto}
+.schedule-sim .error ul{margin:6px 0 0 18px}
+.tornado-maker textarea{width:100%;font:13px/1.5 ui-monospace,Consolas,monospace}
+.tornado-maker fieldset{border-bottom:0}
+.method-option{display:flex!important;gap:10px;align-items:flex-start;margin:10px 0!important}
+.method-option input{margin-top:4px}
+/* Small screens: keep chart text readable (at least ~10.5 px) by letting the chart scroll sideways instead of shrinking. */
+.schedule-sim figure>div,.tornado-result>div{overflow-x:auto}
+@media(max-width:600px){.schedule-sim figure svg,.tornado-result svg{min-width:560px}}

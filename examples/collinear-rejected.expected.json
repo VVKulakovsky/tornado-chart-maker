@@ -1,0 +1,5 @@
+{
+ "fixture": "collinear-rejected",
+ "version": "1.0.0",
+ "error": "Inputs are collinear: Steel price is (almost) a linear combination of other inputs, so their separate effects cannot be estimated. Remove one column or use rank correlation."
+}

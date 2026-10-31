@@ -1,0 +1,15 @@
+{
+ "fixture": "linear-known-spearman",
+ "tool": "tornado-chart-maker",
+ "version": "1.0.0",
+ "description": "The same 2,000 rows ranked by Spearman rank correlation, to show that a different statistic gives a different (and differently labelled) chart.",
+ "units": "Dimensionless coefficients; synthetic data",
+ "statistic": "spearman",
+ "output": "Total cost",
+ "csv": "linear-known.csv",
+ "generator": {
+  "n": 2000,
+  "seed": 42
+ },
+ "permalink": "https://github.com/VVKulakovsky/project-risk-open-methods/blob/tornado-chart-maker-v1.0.0/examples/tornado-chart-maker/linear-known-spearman.input.json"
+}

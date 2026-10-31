@@ -1,0 +1,28 @@
+{
+ "fixture": "spearman-hand",
+ "version": "1.0.0",
+ "result": {
+  "statistic": "spearman",
+  "label": "Spearman rank correlation with Y",
+  "output": "Y",
+  "n": 6,
+  "values": [
+   {
+    "name": "X2",
+    "value": -1
+   },
+   {
+    "name": "X1",
+    "value": 0.9856107606091623
+   },
+   {
+    "name": "X3",
+    "value": 0.6667366910003157
+   }
+  ],
+  "notes": [
+   "Measures how consistently the output rises or falls with each input; it is not a share of the range.",
+   "Correlated inputs can each show a strong coefficient for the same underlying cause."
+  ]
+ }
+}

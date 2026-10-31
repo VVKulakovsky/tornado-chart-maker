@@ -1,0 +1,71 @@
+{
+ "fixture": "oat-cost-drivers",
+ "tool": "tornado-chart-maker",
+ "version": "1.0.0",
+ "description": "One-at-a-time swings for a fictional cost made of four additive drivers. Synthetic numbers.",
+ "units": "USD million (illustrative)",
+ "statistic": "oat",
+ "spec": {
+  "output": "Total installed cost",
+  "units": "USD m",
+  "model": "sum",
+  "inputs": [
+   {
+    "name": "Steel quantity",
+    "low": 18,
+    "base": 20,
+    "high": 26
+   },
+   {
+    "name": "Labour productivity",
+    "low": 30,
+    "base": 35,
+    "high": 48
+   },
+   {
+    "name": "Equipment prices",
+    "low": 40,
+    "base": 42,
+    "high": 45
+   },
+   {
+    "name": "Fabrication yard rate",
+    "low": 12,
+    "base": 13,
+    "high": 15
+   }
+  ]
+ },
+ "handChecked": {
+  "base": 110,
+  "order": [
+   "Labour productivity",
+   "Steel quantity",
+   "Equipment prices",
+   "Fabrication yard rate"
+  ],
+  "outputs": {
+   "Labour productivity": [
+    105,
+    123,
+    18
+   ],
+   "Steel quantity": [
+    108,
+    116,
+    8
+   ],
+   "Equipment prices": [
+    108,
+    113,
+    5
+   ],
+   "Fabrication yard rate": [
+    109,
+    112,
+    3
+   ]
+  }
+ },
+ "permalink": "https://github.com/VVKulakovsky/project-risk-open-methods/blob/tornado-chart-maker-v1.0.0/examples/tornado-chart-maker/oat-cost-drivers.input.json"
+}

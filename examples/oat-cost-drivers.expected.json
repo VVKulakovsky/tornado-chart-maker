@@ -1,0 +1,49 @@
+{
+ "fixture": "oat-cost-drivers",
+ "version": "1.0.0",
+ "result": {
+  "statistic": "oat",
+  "label": "One-at-a-time swing of Total installed cost (USD m)",
+  "output": "Total installed cost",
+  "units": "USD m",
+  "base": 110,
+  "values": [
+   {
+    "name": "Labour productivity",
+    "inputLow": 30,
+    "inputHigh": 48,
+    "low": 105,
+    "high": 123,
+    "swing": 18
+   },
+   {
+    "name": "Steel quantity",
+    "inputLow": 18,
+    "inputHigh": 26,
+    "low": 108,
+    "high": 116,
+    "swing": 8
+   },
+   {
+    "name": "Equipment prices",
+    "inputLow": 40,
+    "inputHigh": 45,
+    "low": 108,
+    "high": 113,
+    "swing": 5
+   },
+   {
+    "name": "Fabrication yard rate",
+    "inputLow": 12,
+    "inputHigh": 15,
+    "low": 109,
+    "high": 112,
+    "swing": 3
+   }
+  ],
+  "notes": [
+   "Each bar moves one input at a time; the others stay at base.",
+   "Bars do not add up to the total range when inputs interact or are correlated."
+  ]
+ }
+}

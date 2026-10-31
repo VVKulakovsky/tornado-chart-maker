@@ -1,0 +1,28 @@
+{
+ "fixture": "linear-known-spearman",
+ "version": "1.0.0",
+ "result": {
+  "statistic": "spearman",
+  "label": "Spearman rank correlation with Total cost",
+  "output": "Total cost",
+  "n": 2000,
+  "values": [
+   {
+    "name": "Productivity",
+    "value": 0.7563483903707282
+   },
+   {
+    "name": "Steel price",
+    "value": 0.5189893051919473
+   },
+   {
+    "name": "Weather days",
+    "value": 0.2799656893063837
+   }
+  ],
+  "notes": [
+   "Measures how consistently the output rises or falls with each input; it is not a share of the range.",
+   "Correlated inputs can each show a strong coefficient for the same underlying cause."
+  ]
+ }
+}

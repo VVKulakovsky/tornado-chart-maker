@@ -1,0 +1,29 @@
+{
+ "fixture": "linear-known",
+ "version": "1.0.0",
+ "result": {
+  "statistic": "src",
+  "label": "Standardised regression coefficient for Total cost (R² = 0.93)",
+  "output": "Total cost",
+  "n": 2000,
+  "r2": 0.9347648171184997,
+  "values": [
+   {
+    "name": "Productivity",
+    "value": 0.7609500866172069
+   },
+   {
+    "name": "Steel price",
+    "value": 0.5110723933759672
+   },
+   {
+    "name": "Weather days",
+    "value": 0.2608569312037566
+   }
+  ],
+  "notes": [
+   "Coefficients assume a linear, additive relationship.",
+   "Strongly correlated inputs make coefficients unstable."
+  ]
+ }
+}

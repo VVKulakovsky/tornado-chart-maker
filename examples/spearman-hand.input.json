@@ -1,0 +1,62 @@
+{
+ "fixture": "spearman-hand",
+ "tool": "tornado-chart-maker",
+ "version": "1.0.0",
+ "description": "Six rows with tied values; Spearman coefficients worked out by hand with average ranks.",
+ "units": "Dimensionless coefficients",
+ "statistic": "spearman",
+ "output": "Y",
+ "table": {
+  "columns": [
+   "X1",
+   "X2",
+   "X3",
+   "Y"
+  ],
+  "rows": [
+   [
+    1,
+    6,
+    3,
+    10
+   ],
+   [
+    2,
+    5,
+    1,
+    20
+   ],
+   [
+    2,
+    4,
+    4,
+    30
+   ],
+   [
+    4,
+    3,
+    1,
+    40
+   ],
+   [
+    5,
+    2,
+    5,
+    50
+   ],
+   [
+    6,
+    1,
+    9,
+    60
+   ]
+  ]
+ },
+ "handChecked": {
+  "X1": 0.9856107606091623,
+  "X2": -1.0,
+  "X3": 0.6667366910003157,
+  "working": "Ranks of Y are 1..6 (sum of squared deviations 17.5). X1 ranks 1, 2.5, 2.5, 4, 5, 6 (17); X3 ranks 3, 1.5, 4, 1.5, 5, 6 (17). Cross products 17 and 11.5."
+ },
+ "permalink": "https://github.com/VVKulakovsky/project-risk-open-methods/blob/tornado-chart-maker-v1.0.0/examples/tornado-chart-maker/spearman-hand.input.json"
+}

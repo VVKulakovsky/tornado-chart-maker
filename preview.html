@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tornado chart maker preview</title>
+<style>
+ :root{--ink:#162b31;--muted:#52656a;--line:#c3c7bd;--paper:#f5f2eb;--copper:#a84f2c}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Arial,Helvetica,sans-serif}
+ main{max-width:1000px;margin:auto;padding:24px 16px 60px}
+ h1{font:400 34px/1.15 Georgia,serif;margin:8px 0 12px}
+ h2{font:400 24px Georgia,serif;margin:28px 0 10px}
+ .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--copper)}
+ .note{color:var(--muted);font-size:13px}
+ fieldset{border:1px solid var(--line);padding:12px 14px;margin:14px 0}
+ legend{font-weight:600;padding:0 6px}
+ .methods label{display:flex;gap:8px;align-items:flex-start;margin:8px 0;font-size:14px}
+ .methods small{display:block;color:var(--muted)}
+ .controls{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end;margin:12px 0}
+ label.field{display:flex;flex-direction:column;font-size:12px;gap:4px}
+ input,select,button,textarea{font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);background:#fff;color:var(--ink);min-width:0}
+ textarea{width:100%;min-height:160px;font:13px/1.5 ui-monospace,Consolas,monospace}
+ button{cursor:pointer;background:var(--ink);color:var(--paper);border-color:var(--ink)}
+ button.secondary{background:transparent;color:var(--ink)}
+ .table-wrap{overflow-x:auto;border:1px solid var(--line)}
+ table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+ th,td{border-bottom:1px solid var(--line);padding:4px;text-align:left}
+ th{background:#ece9df}
+ td input{width:100%;padding:5px}
+ .errors{border-left:3px solid #a02f22;background:#f4e4dd;padding:10px 14px;margin:14px 0}
+ .notes{border-left:2px solid var(--copper);background:#ece9df;padding:8px 14px;font-size:13px}
+ figure{margin:18px 0} figure{overflow-x:auto} figure svg{width:100%;height:auto;display:block}
+ @media(max-width:600px){figure svg{min-width:560px}}
+ .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+ [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+ <p class="eyebrow">Local preview · browser only · version <span id="version"></span></p>
+ <h1>Tornado and sensitivity chart maker</h1>
+ <p>Choose the statistic first: the chart title and axis always name it. Local tools keep their inputs in this browser tab.</p>
+
+ <fieldset class="methods"><legend>Statistic</legend><div id="methods"></div></fieldset>
+
+ <section id="oat-input">
+  <div class="controls">
+   <label class="field">Output name<input id="oat-output" value="Total installed cost" maxlength="60"></label>
+   <label class="field">Units<input id="oat-units" value="USD m" maxlength="20"></label>
+   <label class="field">Model<select id="oat-model"><option value="sum">Output = sum of inputs</option><option value="product">Output = product of inputs</option></select></label>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>Input</th><th>Low</th><th>Base</th><th>High</th></tr></thead><tbody id="oat-rows"></tbody></table></div>
+  <div class="actions"><button class="secondary" id="oat-add" type="button">Add input</button><button class="secondary" id="oat-remove" type="button">Remove last</button></div>
+ </section>
+
+ <section id="table-input" hidden>
+  <p class="note">Paste simulation results: one header row, one column per input and one output column, one row per iteration. Numbers only. Up to 50 inputs and 100,000 rows. The file is read in this tab, not uploaded.</p>
+  <div class="controls">
+   <label class="field">Example data<select id="dataset"><option value="linear-known">2,000 synthetic iterations</option><option value="spearman-hand">Six rows with ties</option><option value="collinear-rejected">Collinear inputs (regression refuses)</option></select></label>
+   <label class="field">Or open a CSV file<input id="file" type="file" accept=".csv,text/csv"></label>
+   <label class="field">Output column<select id="output-col"></select></label>
+  </div>
+  <textarea id="csv" aria-label="Sample table as CSV" spellcheck="false"></textarea>
+ </section>
+
+ <div class="actions"><button id="draw" type="button">Draw tornado chart</button></div>
+ <div id="errors" class="errors" hidden></div>
+ <section id="result" hidden>
+  <figure id="chart"></figure>
+  <div class="notes" id="notes"></div>
+  <div class="actions"><button class="secondary" id="svg">Download SVG</button><button class="secondary" id="png">Download PNG</button></div>
+ </section>
+</main>
+<script type="module">
+import {oneAtATime,rankCorrelation,regression,parseCSV,tornadoSVG,tableToCSV,STATISTICS,VERSION} from './src/sensitivity.mjs'
+import {downloadSVG,downloadPNG} from './src/browser-export.mjs'
+const $=id=>document.getElementById(id)
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+let svg='',result=null
+$('version').textContent=VERSION
+$('methods').innerHTML=Object.entries(STATISTICS).map(([k,s],i)=>`<label><input type="radio" name="stat" value="${k}" ${i===0?'checked':''}><span><strong>${esc(s.name)}</strong><small>${esc(s.explain)}</small></span></label>`).join('')
+const stat=()=>document.querySelector('input[name=stat]:checked').value
+function oatRows(list){$('oat-rows').innerHTML=list.map(r=>`<tr>${['name','low','base','high'].map(k=>`<td><input aria-label="${k}" data-k="${k}" ${k==='name'?'maxlength="60"':'type="number" step="any"'} value="${esc(r[k])}"></td>`).join('')}</tr>`).join('')}
+const readOat=()=>[...$('oat-rows').children].map(tr=>Object.fromEntries([...tr.querySelectorAll('input')].map(i=>[i.dataset.k,i.dataset.k==='name'?i.value:(i.value===''?NaN:Number(i.value))])))
+function setColumns(){try{const t=parseCSV($('csv').value),keep=$('output-col').value;$('output-col').innerHTML=t.columns.map(c=>`<option>${esc(c)}</option>`).join('');$('output-col').value=t.columns.includes(keep)?keep:t.columns.at(-1)}catch{$('output-col').innerHTML=''}}
+async function loadDataset(name){
+ const x=await (await fetch(`./examples/${name}.input.json`)).json()
+ $('csv').value=x.csv?await (await fetch('./examples/'+x.csv)).text():tableToCSV(x.table)
+ setColumns();$('output-col').value=x.output
+}
+function show(errors){$('errors').hidden=!errors.length;$('errors').textContent=errors.join(' ')}
+function draw(){
+ try{
+  const s=stat()
+  if(s==='oat')result=oneAtATime({output:$('oat-output').value.trim()||'Output',units:$('oat-units').value.trim(),model:$('oat-model').value,inputs:readOat()})
+  else{const t=parseCSV($('csv').value),out=$('output-col').value;result=s==='spearman'?rankCorrelation(t,out):regression(t,out)}
+  svg=tornadoSVG(result);$('chart').innerHTML=svg
+  $('notes').innerHTML=result.notes.map(n=>`<p>${esc(n)}</p>`).join('');show([]);$('result').hidden=false
+ }catch(e){show([e.message]);$('result').hidden=true}
+}
+document.addEventListener('change',e=>{if(e.target.name==='stat'){const oat=stat()==='oat';$('oat-input').hidden=!oat;$('table-input').hidden=oat;$('result').hidden=true}})
+$('dataset').onchange=e=>loadDataset(e.target.value)
+$('csv').oninput=setColumns
+$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(f.size>20e6)return show(['File is larger than 20 MB.']);$('csv').value=await f.text();setColumns()}
+$('oat-add').onclick=()=>{const r=readOat();if(r.length<50)r.push({name:'Input '+(r.length+1),low:0,base:1,high:2});oatRows(r)}
+$('oat-remove').onclick=()=>{const r=readOat();r.pop();oatRows(r)}
+$('draw').onclick=draw
+$('svg').onclick=()=>downloadSVG(`tornado-${result.statistic}.svg`,svg)
+$('png').onclick=()=>downloadPNG(`tornado-${result.statistic}.png`,svg)
+const oat=await (await fetch('./examples/oat-cost-drivers.input.json')).json()
+oatRows(oat.spec.inputs);$('oat-output').value=oat.spec.output;$('oat-units').value=oat.spec.units
+await loadDataset('linear-known');draw()
+</script>
+</body>
+</html>
